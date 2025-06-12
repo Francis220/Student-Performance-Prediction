@@ -1,0 +1,347 @@
+/* Custom styles for Student Performance Prediction App */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    --warning-gradient: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+    --shadow-soft: 0 5px 15px rgba(0,0,0,0.08);
+    --shadow-medium: 0 8px 25px rgba(0,0,0,0.15);
+    --border-radius: 15px;
+    --transition: all 0.3s ease;
+}
+
+/* Loading States */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Chart containers */
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+.chart-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+/* Risk indicators */
+.risk-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.risk-low {
+    background: var(--success-gradient);
+    color: white;
+}
+
+.risk-medium {
+    background: var(--warning-gradient);
+    color: #333;
+}
+
+.risk-high {
+    background: var(--danger-gradient);
+    color: white;
+}
+
+/* Feature importance bars */
+.feature-bar {
+    height: 8px;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+    margin: 4px 0;
+    transition: var(--transition);
+}
+
+.feature-bar:hover {
+    transform: scaleY(1.5);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Prediction cards */
+.prediction-result {
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 10px 0;
+    transition: var(--transition);
+    border-left: 5px solid transparent;
+}
+
+.prediction-result:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.prediction-result.success {
+    border-left-color: #28a745;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+}
+
+.prediction-result.warning {
+    border-left-color: #ffc107;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+}
+
+.prediction-result.danger {
+    border-left-color: #dc3545;
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+}
+
+/* Model status indicators */
+.model-status {
+    position: relative;
+    padding-left: 25px;
+}
+
+.model-status::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #6c757d;
+}
+
+.model-status.active::before {
+    background: #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+.model-status.training::before {
+    background: #ffc107;
+    animation: pulse 1s infinite;
+}
+
+.model-status.error::before {
+    background: #dc3545;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Progress indicators */
+.progress-wrapper {
+    position: relative;
+    margin: 15px 0;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+}
+
+/* Data quality indicators */
+.data-quality {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px 0;
+}
+
+.data-quality.excellent {
+    background: rgba(40, 167, 69, 0.1);
+    border-left: 4px solid #28a745;
+}
+
+.data-quality.good {
+    background: rgba(23, 162, 184, 0.1);
+    border-left: 4px solid #17a2b8;
+}
+
+.data-quality.warning {
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+}
+
+.data-quality.poor {
+    background: rgba(220, 53, 69, 0.1);
+    border-left: 4px solid #dc3545;
+}
+
+/* Interactive elements */
+.interactive-hover {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.interactive-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Form enhancements */
+.form-group-enhanced {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-control-enhanced {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: var(--transition);
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.form-control-enhanced:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .metric-card {
+        margin-bottom: 15px;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1050;
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+}
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tooltip enhancements */
+.tooltip-custom {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-custom .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85rem;
+}
+
+.tooltip-custom:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Print styles */
+@media print {
+    .sidebar,
+    .btn,
+    .alert {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+} 

@@ -1,6 +1,6 @@
 ================================================================================
 MODEL COMPARISON REPORT
-Generated: 2025-06-11 20:16:43
+Generated: 2025-06-12 12:59:10
 ================================================================================
 
 DATASET INFORMATION
@@ -15,23 +15,23 @@ MODEL PERFORMANCE SUMMARY
 
 RANDOM_FOREST
 --------------------
-Training Time: 29.94 seconds
+Training Time: 12.53 seconds
 
 GRADIENT_BOOSTING
 --------------------
-Training Time: 41.11 seconds
+Training Time: 19.54 seconds
 
 SVM
 --------------------
-Training Time: 2.22 seconds
+Training Time: 1.20 seconds
 
 NEURAL_NETWORK
 --------------------
-Training Time: 0.57 seconds
+Training Time: 0.42 seconds
 
 LOGISTIC_REGRESSION
 --------------------
-Training Time: 13.92 seconds
+Training Time: 5.92 seconds
 
 ENSEMBLE
 --------------------

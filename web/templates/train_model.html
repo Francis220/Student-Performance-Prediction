@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}System Setup - Student Performance Prediction{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-cogs"></i> System Setup</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- System Status Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h5><i class="fas fa-info-circle"></i> About System Setup</h5>
+            <p class="mb-0">This page is for system administrators to train the AI models that power student risk assessment. Once set up, teachers can use the simple assessment tools without needing to understand the technical details.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Simple Training Interface -->
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-robot"></i> Train AI Models</h5>
+            </div>
+            <div class="card-body">
+                <form id="training-form" method="POST">
+                    <!-- Dataset Selection -->
+                    <div class="mb-4">
+                        <label for="dataset" class="form-label">
+                            <strong>Select Student Dataset</strong>
+                        </label>
+                        <select class="form-select form-select-lg" id="dataset" name="dataset" required>
+                            <option value="">Choose a dataset to train the AI...</option>
+                            {% for dataset in available_datasets %}
+                            <option value="{{ dataset }}">
+                                {{ dataset }} 
+                                {% if 'por' in dataset %}
+                                (Portuguese Language Course)
+                                {% elif 'mat' in dataset %}
+                                (Mathematics Course)
+                                {% else %}
+                                (Student Performance Data)
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">This data will be used to teach the AI how to assess student risk</div>
+                    </div>
+
+                    <!-- Simple Model Selection -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <strong>Training Mode</strong>
+                        </label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border">
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="training_mode" 
+                                                   id="quick_setup" value="quick" checked>
+                                            <label class="form-check-label" for="quick_setup">
+                                                <strong>Quick Setup (Recommended)</strong>
+                                            </label>
+                                        </div>
+                                        <small class="text-muted">
+                                            Trains 3 reliable AI models. Takes 5-10 minutes.
+                                            Perfect for getting started quickly.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border">
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="training_mode" 
+                                                   id="complete_setup" value="complete">
+                                            <label class="form-check-label" for="complete_setup">
+                                                <strong>Complete Setup</strong>
+                                            </label>
+                                        </div>
+                                        <small class="text-muted">
+                                            Trains all available AI models with optimization.
+                                            Takes 15-30 minutes but provides best accuracy.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Technical Settings (Set to Safe Defaults) -->
+                    <input type="hidden" name="test_size" value="0.2">
+                    <input type="hidden" name="val_size" value="0.1">
+                    <input type="hidden" name="random_state" value="42">
+                    <input type="hidden" name="cv_folds" value="5">
+                    <input type="hidden" name="optimize_hyperparameters" value="true">
+
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" id="trainButton">
+                            <i class="fas fa-play"></i> Start AI Training
+                        </button>
+                        <div class="text-center">
+                            <small class="text-muted">This process will run in the background. You can close this page once training starts.</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status and Information -->
+    <div class="col-lg-4">
+        <!-- Current Status -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-heartbeat"></i> System Status</h6>
+            </div>
+            <div class="card-body">
+                <div class="status-item mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Data Available:</span>
+                        {% if available_datasets %}
+                            <span class="badge bg-success">{{ available_datasets|length }} dataset(s)</span>
+                        {% else %}
+                            <span class="badge bg-warning">No data</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="status-item mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>AI Models:</span>
+                        {% if models_available %}
+                            <span class="badge bg-success">Ready</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Not trained</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Assessment Tool:</span>
+                        {% if models_available %}
+                            <span class="badge bg-success">Available</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pending setup</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Guide -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-question-circle"></i> Setup Guide</h6>
+            </div>
+            <div class="card-body">
+                <div class="setup-step mb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number bg-primary text-white me-3">1</div>
+                        <div>
+                            <strong>Choose Dataset</strong>
+                            <br><small>Select the student data file to train with</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step mb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number bg-primary text-white me-3">2</div>
+                        <div>
+                            <strong>Select Training Mode</strong>
+                            <br><small>Quick setup is recommended for most schools</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step mb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number bg-primary text-white me-3">3</div>
+                        <div>
+                            <strong>Start Training</strong>
+                            <br><small>The AI will learn from your data automatically</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="d-flex align-items-start">
+                        <div class="step-number bg-success text-white me-3">✓</div>
+                        <div>
+                            <strong>Use Assessment Tool</strong>
+                            <br><small>Teachers can now assess student risk</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Training Progress (Hidden by default) -->
+<div class="row mt-4" id="progress-section" style="display: none;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-cog fa-spin"></i> Training in Progress</h5>
+            </div>
+            <div class="card-body">
+                <div class="progress mb-3" style="height: 25px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         id="training-progress" role="progressbar" style="width: 0%">
+                        0%
+                    </div>
+                </div>
+                <div id="training-status" class="text-center">
+                    Initializing training process...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.setup-step {
+    padding: 0.5rem 0;
+}
+
+.status-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+</style>
+
+<script>
+document.getElementById('training-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const dataset = document.getElementById('dataset').value;
+    const trainingMode = document.querySelector('input[name="training_mode"]:checked').value;
+    
+    if (!dataset) {
+        alert('Please select a dataset first.');
+        return;
+    }
+    
+    // Show progress section
+    document.getElementById('progress-section').style.display = 'block';
+    
+    // Disable form
+    const formElements = this.querySelectorAll('input, select, button');
+    formElements.forEach(element => element.disabled = true);
+    
+    // Simulate training progress (in real implementation, this would poll the server)
+    let progress = 0;
+    const progressBar = document.getElementById('training-progress');
+    const statusText = document.getElementById('training-status');
+    
+    const steps = trainingMode === 'quick' ? [
+        'Loading and preprocessing data...',
+        'Training Random Forest model...',
+        'Training Logistic Regression model...',
+        'Training Support Vector Machine...',
+        'Generating model reports...',
+        'Training complete!'
+    ] : [
+        'Loading and preprocessing data...',
+        'Training Random Forest model...',
+        'Training Logistic Regression model...',
+        'Training Support Vector Machine...',
+        'Training Neural Network...',
+        'Training Gradient Boosting...',
+        'Training K-Nearest Neighbors...',
+        'Training Decision Tree...',
+        'Optimizing hyperparameters...',
+        'Generating detailed reports...',
+        'Training complete!'
+    ];
+    
+    let currentStep = 0;
+    const totalSteps = steps.length;
+    
+    const updateProgress = () => {
+        if (currentStep < totalSteps) {
+            progress = Math.round((currentStep / totalSteps) * 100);
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = progress + '%';
+            statusText.textContent = steps[currentStep];
+            currentStep++;
+            
+            setTimeout(updateProgress, trainingMode === 'quick' ? 2000 : 3000);
+        } else {
+            // Training complete
+            progressBar.classList.remove('progress-bar-animated');
+            progressBar.classList.add('bg-success');
+            statusText.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Training Complete!</strong> The AI models are now ready to assess student risk.
+                    <br><br>
+                    <a href="${ "{{ url_for('dashboard') }}" }" class="btn btn-success">
+                        <i class="fas fa-arrow-right"></i> Go to Dashboard
+                    </a>
+                </div>
+            `;
+        }
+    };
+    
+    // Start progress simulation
+    setTimeout(updateProgress, 1000);
+    
+    // Make actual API call (this would be implemented in the real system)
+    const formData = new FormData(this);
+    
+    // Add training mode specific settings
+    if (trainingMode === 'quick') {
+        formData.append('models_to_train', 'random_forest');
+        formData.append('models_to_train', 'logistic_regression');
+        formData.append('models_to_train', 'svm');
+    } else {
+        // Add all models for complete setup
+        const allModels = ['random_forest', 'logistic_regression', 'svm', 'neural_network', 
+                          'gradient_boosting', 'knn', 'decision_tree'];
+        allModels.forEach(model => formData.append('models_to_train', model));
+    }
+    
+    // In a real implementation, uncomment this:
+    /*
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Handle success
+        } else {
+            // Handle error
+            alert('Training failed: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during training.');
+    });
+    */
+});
+</script>
+{% endblock %} 

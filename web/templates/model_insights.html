@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block title %}Educational Insights - Student Performance Prediction{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-lightbulb"></i> Educational Insights</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Key Insights for Teachers -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-star"></i> What Really Matters for Student Success</h5>
+            </div>
+            <div class="card-body">
+                <p class="lead">Based on our AI analysis, here are the top factors that impact student performance:</p>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="insight-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="insight-icon bg-danger text-white me-3">1</div>
+                                <div>
+                                    <h6 class="fw-bold">Home Environment</h6>
+                                    <p class="mb-2">Students from urban areas typically perform better due to better access to resources and educational opportunities.</p>
+                                    <div class="action-tip">
+                                        <strong>What you can do:</strong> Help rural students access online resources and connect with mentoring programs.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="insight-icon bg-warning text-white me-3">2</div>
+                                <div>
+                                    <h6 class="fw-bold">Additional Support</h6>
+                                    <p class="mb-2">Students receiving extra educational support show significant improvement in performance.</p>
+                                    <div class="action-tip">
+                                        <strong>What you can do:</strong> Advocate for tutoring programs and identify students who could benefit from extra help.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="insight-icon bg-info text-white me-3">3</div>
+                                <div>
+                                    <h6 class="fw-bold">Study Habits</h6>
+                                    <p class="mb-2">Regular study time (5+ hours per week) is strongly correlated with better academic outcomes.</p>
+                                    <div class="action-tip">
+                                        <strong>What you can do:</strong> Help students create structured study schedules and teach effective study techniques.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="insight-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="insight-icon bg-secondary text-white me-3">4</div>
+                                <div>
+                                    <h6 class="fw-bold">Social Balance</h6>
+                                    <p class="mb-2">Students who go out very frequently may struggle to balance social and academic responsibilities.</p>
+                                    <div class="action-tip">
+                                        <strong>What you can do:</strong> Discuss time management strategies and help students find healthy social-academic balance.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item mb-4">
+                            <div class="d-flex align-items-start">
+                                <div class="insight-icon bg-dark text-white me-3">5</div>
+                                <div>
+                                    <h6 class="fw-bold">Health & Wellness</h6>
+                                    <p class="mb-2">Substance use patterns can significantly impact academic performance and focus.</p>
+                                    <div class="action-tip">
+                                        <strong>What you can do:</strong> Be aware of warning signs and connect students with counseling resources when needed.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Intervention Strategies -->
+<div class="row mb-4">
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-hands-helping"></i> Proven Intervention Strategies</h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="interventionAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapseHighRisk">
+                                <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                                High-Risk Students
+                            </button>
+                        </h2>
+                        <div id="collapseHighRisk" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="strategy-item mb-3">
+                                    <strong>Immediate Actions:</strong>
+                                    <ul class="mt-2">
+                                        <li>Schedule parent-teacher conference within 1 week</li>
+                                        <li>Create individualized support plan</li>
+                                        <li>Increase check-ins to 2-3 times per week</li>
+                                        <li>Connect with school counselor or social worker</li>
+                                    </ul>
+                                </div>
+                                <div class="strategy-item">
+                                    <strong>Long-term Support:</strong>
+                                    <ul class="mt-2">
+                                        <li>Pair with peer mentor or tutor</li>
+                                        <li>Modify assignments to build confidence</li>
+                                        <li>Address barriers to learning (transportation, home support)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapseMediumRisk">
+                                <i class="fas fa-exclamation-circle text-warning me-2"></i>
+                                Medium-Risk Students
+                            </button>
+                        </h2>
+                        <div id="collapseMediumRisk" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="strategy-item mb-3">
+                                    <strong>Monitoring & Support:</strong>
+                                    <ul class="mt-2">
+                                        <li>Weekly progress check-ins</li>
+                                        <li>Help develop better study habits</li>
+                                        <li>Encourage participation in study groups</li>
+                                        <li>Monitor social-academic balance</li>
+                                    </ul>
+                                </div>
+                                <div class="strategy-item">
+                                    <strong>Skill Building:</strong>
+                                    <ul class="mt-2">
+                                        <li>Teach time management techniques</li>
+                                        <li>Provide organizational tools and strategies</li>
+                                        <li>Offer optional extra practice sessions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapseLowRisk">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Low-Risk Students
+                            </button>
+                        </h2>
+                        <div id="collapseLowRisk" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="strategy-item mb-3">
+                                    <strong>Enhancement Opportunities:</strong>
+                                    <ul class="mt-2">
+                                        <li>Offer advanced or enrichment activities</li>
+                                        <li>Consider peer tutoring or mentoring roles</li>
+                                        <li>Encourage leadership opportunities</li>
+                                        <li>Maintain regular positive reinforcement</li>
+                                    </ul>
+                                </div>
+                                <div class="strategy-item">
+                                    <strong>Continued Growth:</strong>
+                                    <ul class="mt-2">
+                                        <li>Set challenging but achievable goals</li>
+                                        <li>Encourage participation in academic competitions</li>
+                                        <li>Consider independent study projects</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Reference -->
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-clipboard-list"></i> Quick Reference</h5>
+            </div>
+            <div class="card-body">
+                <div class="reference-section mb-4">
+                    <h6 class="fw-bold text-danger">Warning Signs</h6>
+                    <ul class="small">
+                        <li>Sudden drop in grades</li>
+                        <li>Increased absences</li>
+                        <li>Lack of homework completion</li>
+                        <li>Social withdrawal</li>
+                        <li>Behavioral changes</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-section mb-4">
+                    <h6 class="fw-bold text-success">Positive Indicators</h6>
+                    <ul class="small">
+                        <li>Regular attendance</li>
+                        <li>Consistent homework submission</li>
+                        <li>Active class participation</li>
+                        <li>Seeks help when needed</li>
+                        <li>Good peer relationships</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-section">
+                    <h6 class="fw-bold text-primary">When to Refer</h6>
+                    <ul class="small">
+                        <li>Academic performance drops significantly</li>
+                        <li>Signs of emotional distress</li>
+                        <li>Family issues affecting school</li>
+                        <li>Substance abuse concerns</li>
+                        <li>Persistent behavioral problems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Evidence-Based Practices -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-book"></i> Evidence-Based Teaching Practices</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Frequent Progress Monitoring</strong>
+                                    <br><small>Regular assessments help identify struggling students early</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Differentiated Instruction</strong>
+                                    <br><small>Adapt teaching methods to different learning styles and abilities</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Positive Reinforcement</strong>
+                                    <br><small>Acknowledge effort and improvement, not just achievement</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Family Engagement</strong>
+                                    <br><small>Involve parents in the educational process</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Collaborative Learning</strong>
+                                    <br><small>Encourage peer-to-peer learning and support</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="practice-item mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                <div>
+                                    <strong>Clear Expectations</strong>
+                                    <br><small>Set and communicate clear learning goals and standards</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+.insight-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.insight-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.insight-item:last-child {
+    border-bottom: none;
+}
+
+.action-tip {
+    background: #f8f9fa;
+    padding: 0.75rem;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.strategy-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.strategy-item:last-child {
+    margin-bottom: 0;
+}
+
+.reference-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.reference-section li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.reference-section li:last-child {
+    border-bottom: none;
+}
+
+.practice-item {
+    padding: 0.5rem 0;
+}
+</style>
+{% endblock %} 
