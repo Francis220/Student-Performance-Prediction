@@ -18,25 +18,25 @@
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="metric-card bg-primary text-white">
-            <div class="metric-number">32</div>
+            <div class="metric-number">{{ total_students }}</div>
             <div class="metric-label">Total Students</div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="metric-card bg-danger text-white">
-            <div class="metric-number">5</div>
+            <div class="metric-number">{{ high_risk_count }}</div>
             <div class="metric-label">High Risk</div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="metric-card bg-warning text-white">
-            <div class="metric-number">8</div>
+            <div class="metric-number">{{ medium_risk_count }}</div>
             <div class="metric-label">Medium Risk</div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="metric-card bg-success text-white">
-            <div class="metric-number">19</div>
+            <div class="metric-number">{{ low_risk_count }}</div>
             <div class="metric-label">Low Risk</div>
         </div>
     </div>
@@ -54,13 +54,13 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-high-tab" data-bs-toggle="tab" data-bs-target="#nav-high" type="button">
-                            <i class="fas fa-exclamation-triangle text-danger"></i> High Risk (5)
+                            <i class="fas fa-exclamation-triangle text-danger"></i> High Risk ({{ high_risk_count }})
                         </button>
                         <button class="nav-link" id="nav-medium-tab" data-bs-toggle="tab" data-bs-target="#nav-medium" type="button">
-                            <i class="fas fa-exclamation-circle text-warning"></i> Medium Risk (8)
+                            <i class="fas fa-exclamation-circle text-warning"></i> Medium Risk ({{ medium_risk_count }})
                         </button>
                         <button class="nav-link" id="nav-low-tab" data-bs-toggle="tab" data-bs-target="#nav-low" type="button">
-                            <i class="fas fa-check-circle text-success"></i> Low Risk (19)
+                            <i class="fas fa-check-circle text-success"></i> Low Risk ({{ low_risk_count }})
                         </button>
                     </div>
                 </nav>
@@ -69,92 +69,37 @@
                     <!-- High Risk Students -->
                     <div class="tab-pane fade show active" id="nav-high">
                         <div class="row">
+                            {% for student in high_risk_students %}
                             <div class="col-md-4 mb-3">
                                 <div class="card border-danger">
                                     <div class="card-header bg-danger text-white">
-                                        <strong>Maria Santos</strong>
+                                        <strong>{{ student.id }}</strong>
                                     </div>
                                     <div class="card-body">
                                         <div class="risk-factors mb-2">
                                             <small class="text-muted">Primary Risk Factors:</small>
                                             <div>
-                                                <span class="badge bg-danger me-1">Rural Address</span>
-                                                <span class="badge bg-danger me-1">No Support</span>
-                                                <span class="badge bg-danger">Low Study Time</span>
+                                                {% for factor in student.factors %}
+                                                <span class="badge bg-danger me-1">{{ factor }}</span>
+                                                {% endfor %}
                                             </div>
                                         </div>
-                                        <div class="recommendations">
-                                            <small class="text-muted">Immediate Actions:</small>
-                                            <ul class="small mb-2">
-                                                <li>Schedule parent meeting this week</li>
-                                                <li>Arrange tutoring support</li>
-                                                <li>Monitor attendance daily</li>
-                                            </ul>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-primary">View Details</button>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="col-md-4 mb-3">
-                                <div class="card border-danger">
-                                    <div class="card-header bg-danger text-white">
-                                        <strong>João Silva</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="risk-factors mb-2">
-                                            <small class="text-muted">Primary Risk Factors:</small>
-                                            <div>
-                                                <span class="badge bg-danger me-1">High Social Activity</span>
-                                                <span class="badge bg-danger me-1">Substance Use</span>
-                                                <span class="badge bg-danger">Poor Study Habits</span>
-                                            </div>
-                                        </div>
-                                        <div class="recommendations">
-                                            <small class="text-muted">Immediate Actions:</small>
-                                            <ul class="small mb-2">
-                                                <li>Counselor referral needed</li>
-                                                <li>Create study schedule</li>
-                                                <li>Discuss time management</li>
-                                            </ul>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-primary">View Details</button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4 mb-3">
-                                <div class="card border-danger">
-                                    <div class="card-header bg-danger text-white">
-                                        <strong>Ana Costa</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="risk-factors mb-2">
-                                            <small class="text-muted">Primary Risk Factors:</small>
-                                            <div>
-                                                <span class="badge bg-danger me-1">No Extra Support</span>
-                                                <span class="badge bg-danger me-1">Transportation Issues</span>
-                                                <span class="badge bg-danger">Family Stress</span>
-                                            </div>
-                                        </div>
-                                        <div class="recommendations">
-                                            <small class="text-muted">Immediate Actions:</small>
-                                            <ul class="small mb-2">
-                                                <li>Arrange transportation help</li>
-                                                <li>Connect with social services</li>
-                                                <li>Flexible assignment deadlines</li>
-                                            </ul>
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-primary">View Details</button>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
-                        
+
+                        {% if high_risk_students|length == 0 %}
+                        <div class="alert alert-success mt-3">
+                            <strong>No high-risk students identified.</strong>
+                        </div>
+                        {% else %}
                         <div class="alert alert-danger mt-3">
                             <strong><i class="fas fa-exclamation-triangle"></i> Action Required:</strong>
-                            These students need immediate intervention. Consider scheduling meetings with parents and counselors this week.
+                            These students need immediate intervention. Provide targeted support.
                         </div>
+                        {% endif %}
                     </div>
                     
                     <!-- Medium Risk Students -->
@@ -170,38 +115,21 @@
                                     <tr>
                                         <th>Student</th>
                                         <th>Risk Factors</th>
-                                        <th>Recommended Actions</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for student in medium_risk_students %}
                                     <tr>
-                                        <td><strong>Carlos Lima</strong></td>
+                                        <td><strong>{{ student.id }}</strong></td>
                                         <td>
-                                            <span class="badge bg-warning me-1">Moderate Social Activity</span>
-                                            <span class="badge bg-warning">Inconsistent Study</span>
+                                            {% for factor in student.factors %}
+                                            <span class="badge bg-warning me-1">{{ factor }}</span>
+                                            {% endfor %}
                                         </td>
-                                        <td>Weekly check-ins, study group</td>
                                         <td><span class="badge bg-warning">Monitor</span></td>
                                     </tr>
-                                    <tr>
-                                        <td><strong>Sofia Pereira</strong></td>
-                                        <td>
-                                            <span class="badge bg-warning me-1">Family Pressure</span>
-                                            <span class="badge bg-warning">Academic Stress</span>
-                                        </td>
-                                        <td>Stress management, parent communication</td>
-                                        <td><span class="badge bg-warning">Monitor</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Pedro Oliveira</strong></td>
-                                        <td>
-                                            <span class="badge bg-warning me-1">Attendance Issues</span>
-                                            <span class="badge bg-warning">Low Motivation</span>
-                                        </td>
-                                        <td>Engagement activities, goal setting</td>
-                                        <td><span class="badge bg-warning">Monitor</span></td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -211,90 +139,19 @@
                     <div class="tab-pane fade" id="nav-low">
                         <div class="alert alert-success">
                             <strong><i class="fas fa-check-circle"></i> On Track:</strong>
-                            These students are performing well. Consider leadership and enrichment opportunities.
+                            These students are performing well.
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Top Performers</h6>
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Teresa Alves</span>
-                                        <span class="badge bg-success">Excellent</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Miguel Ferreira</span>
-                                        <span class="badge bg-success">Excellent</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between">
-                                        <span>Catarina Sousa</span>
-                                        <span class="badge bg-success">Excellent</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Potential Mentors</h6>
-                                <p class="small text-muted">Consider these students for peer tutoring programs:</p>
-                                <ul class="small">
-                                    <li>Teresa Alves - Strong in Mathematics</li>
-                                    <li>Miguel Ferreira - Good study habits</li>
-                                    <li>Catarina Sousa - Leadership skills</li>
-                                </ul>
-                            </div>
-                        </div>
+
+                        <ul class="list-group">
+                            {% for student in low_risk_students %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ student.id }}
+                                <span class="badge bg-success">Good</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Quick Actions -->
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="fas fa-tasks"></i> This Week's Actions</h6>
-            </div>
-            <div class="card-body">
-                <div class="action-item mb-2">
-                    <input type="checkbox" class="form-check-input me-2">
-                    <span>Schedule meeting with Maria Santos' parents</span>
-                </div>
-                <div class="action-item mb-2">
-                    <input type="checkbox" class="form-check-input me-2">
-                    <span>Refer João Silva to counselor</span>
-                </div>
-                <div class="action-item mb-2">
-                    <input type="checkbox" class="form-check-input me-2">
-                    <span>Arrange tutoring for Ana Costa</span>
-                </div>
-                <div class="action-item mb-2">
-                    <input type="checkbox" class="form-check-input me-2">
-                    <span>Check in with Carlos Lima</span>
-                </div>
-                <button class="btn btn-sm btn-primary mt-2">Add Custom Action</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="fas fa-chart-line"></i> Class Progress</h6>
-            </div>
-            <div class="card-body">
-                <p>Since last month:</p>
-                <div class="progress-item mb-2">
-                    <span class="text-success">↑ 3 students improved to low risk</span>
-                </div>
-                <div class="progress-item mb-2">
-                    <span class="text-warning">→ 2 students moved to medium risk</span>
-                </div>
-                <div class="progress-item mb-2">
-                    <span class="text-info">📈 Overall class average improved by 5%</span>
-                </div>
-                <button class="btn btn-sm btn-outline-primary mt-2">View Full Report</button>
             </div>
         </div>
     </div>

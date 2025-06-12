@@ -126,13 +126,86 @@ def dashboard():
     # Create model comparison chart
     comparison_chart = create_model_comparison_chart(performance_data)
     
+    # Calculate metrics based on student-por.csv
+    total_students = 0
+    high_risk_count = 0
+    medium_risk_count = 0
+    low_risk_count = 0
+    
+    if 'student-por.csv' in available_datasets:
+        student_por_path = os.path.join('data', 'student-por.csv')
+        if os.path.exists(student_por_path):
+            student_por_df = pd.read_csv(student_por_path)
+            # Ensure the final grade column is numeric
+            student_por_df['G3'] = pd.to_numeric(student_por_df['G3'], errors='coerce')
+            total_students = len(student_por_df)
+            high_risk_count = len(student_por_df[student_por_df['G3'] <= 9])
+            medium_risk_count = len(student_por_df[(student_por_df['G3'] >= 10) & (student_por_df['G3'] <= 14)])
+            low_risk_count = len(student_por_df[student_por_df['G3'] >= 15])
+
+            # Build lists of students for each risk level with simple risk factors
+            risk_students = {'high': [], 'medium': [], 'low': []}
+
+            for idx, row in student_por_df.iterrows():
+                # Determine risk level from final grade
+                g3 = row['G3']
+                if pd.isna(g3):
+                    continue  # skip if grade missing
+
+                if g3 <= 9:
+                    level = 'high'
+                elif g3 <= 14:
+                    level = 'medium'
+                else:
+                    level = 'low'
+
+                # Identify simple risk / success factors
+                factors = []
+                try:
+                    if row.get('failures', 0) > 0:
+                        factors.append('Past Failures')
+                    if row.get('absences', 0) > 5:
+                        factors.append('Frequent Absences')
+                    if row.get('studytime', 2) <= 1:
+                        factors.append('Low Study Time')
+                    if row.get('goout', 0) >= 4:
+                        factors.append('High Social Activity')
+                    if row.get('Dalc', 0) >= 3 or row.get('Walc', 0) >= 3:
+                        factors.append('Alcohol Consumption')
+                    if row.get('schoolsup', 'yes') == 'no':
+                        factors.append('No School Support')
+                    if row.get('famsup', 'yes') == 'no':
+                        factors.append('No Family Support')
+                except Exception:
+                    pass
+
+                # For low-risk (good performers) show positive factor
+                if level == 'low' and not factors:
+                    factors.append('Strong Performance')
+
+                risk_students[level].append({
+                    'id': f"Student #{idx + 1}",
+                    'factors': factors[:3]  # show up to three factors
+                })
+
+            high_risk_students = risk_students['high']
+            medium_risk_students = risk_students['medium']
+            low_risk_students = risk_students['low']
+    
     return render_template('dashboard.html',
                          models_loaded=models_loaded,
                          models=list(web_interface.models.keys()),
                          performance_data=performance_data,
                          importance_data=importance_data,
                          available_datasets=available_datasets,
-                         comparison_chart=comparison_chart)
+                         comparison_chart=comparison_chart,
+                         total_students=total_students,
+                         high_risk_count=high_risk_count,
+                         medium_risk_count=medium_risk_count,
+                         low_risk_count=low_risk_count,
+                         high_risk_students=high_risk_students,
+                         medium_risk_students=medium_risk_students,
+                         low_risk_students=low_risk_students)
 
 @app.route('/predict')
 def predict_page():
