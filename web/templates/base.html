@@ -1,140 +1,597 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}Student Performance Prediction{% endblock %}</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
 
   {% block extra_css %}
   <style>
-    @font-face {
-      font-family: 'PP Neue Montreal';
-      src: url('/static/fonts/PPNeueMontreal-Regular.woff2') format('woff2'),
-           url('/static/fonts/PPNeueMontreal-Regular.woff')  format('woff');
-      font-weight: 400;
-      font-style: normal;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
     :root {
-      --clr-bg-light:   #E4ECE6;
-      --clr-bg-neutral: #EFF8FE;
-      --clr-accent:     #B2EF82;
-      --clr-high:       #FF8F8F;
-      --clr-medium:     #FFE45D;
-      --clr-low:        #F4EFE2;
-      --clr-text:       #000000;
+      --clr-bg-primary:   #ffffff;
+      --clr-bg-secondary: #f8fafc;
+      --clr-bg-card:      #ffffff;
+      --clr-border:       #e2e8f0;
+      --clr-border-light: #f1f5f9;
+      --clr-text-primary: #0f172a;
+      --clr-text-secondary: #64748b;
+      --clr-text-muted:   #94a3b8;
+      --clr-accent:       #3b82f6;
+      --clr-accent-light: #dbeafe;
+      --clr-success:      #10b981;
+      --clr-success-light: #d1fae5;
+      --clr-warning:      #f59e0b;
+      --clr-warning-light: #fef3c7;
+      --clr-danger:       #ef4444;
+      --clr-danger-light: #fee2e2;
+      --shadow-sm:        0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md:        0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg:        0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius-sm:        0.375rem;
+      --radius-md:        0.5rem;
+      --radius-lg:        0.75rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'PP Neue Montreal', sans-serif;
-      background: var(--clr-bg-light);
-      color: var(--clr-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--clr-bg-secondary);
+      color: var(--clr-text-primary);
+      line-height: 1.6;
+    }
+
+    .sidebar {
+      width: 280px;
+      height: 100vh;
+      background: var(--clr-bg-primary);
+      border-right: 1px solid var(--clr-border);
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 1.5rem 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 2rem;
+      border-bottom: 1px solid var(--clr-border-light);
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-header h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--clr-text-primary);
+      margin: 0;
+    }
+
+    .sidebar-header .badge {
+      background: var(--clr-accent-light);
+      color: var(--clr-accent);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar-nav-item {
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      color: var(--clr-text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .sidebar-nav-link:hover {
+      color: var(--clr-text-primary);
+      background: var(--clr-bg-secondary);
+    }
+
+    .sidebar-nav-link.active {
+      color: #ffffff;
+      background: #000000;
+      font-weight: 600;
+    }
+
+    .sidebar-nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #ffffff;
+    }
+
+    .sidebar-nav-link i {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.75rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-badge {
+      background: var(--clr-danger);
+      color: white;
+      font-size: 0.625rem;
+      padding: 0.125rem 0.375rem;
+      border-radius: 10px;
+      margin-left: auto;
+    }
+
+    .main-container {
+      margin-left: 280px;
+      min-height: 100vh;
     }
 
     .main-content {
       padding: 2rem;
+      max-width: 1400px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--clr-text-primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.875rem;
+      color: var(--clr-text-secondary);
+      margin: 0.25rem 0 0;
     }
 
     .metric-card {
-      background: var(--clr-bg-neutral);
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease;
+      background: var(--clr-bg-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.15s ease;
+      height: 100%;
     }
+
     .metric-card:hover {
-      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
     }
-    .metric-number {
-      font-size: 2.8rem;
-      font-weight: 600;
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
     }
+
     .metric-label {
-      font-size: 1.1rem;
-      color: #555;
-    }
-
-    .badge-high   { background: var(--clr-high)   !important; color: var(--clr-text); }
-    .badge-medium { background: var(--clr-medium) !important; color: var(--clr-text); }
-    .badge-low    { background: var(--clr-low)    !important; color: var(--clr-text); }
-
-    .card {
-      border: none;
-      border-radius: 1rem;
-      background: var(--clr-bg-neutral);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-    }
-    .card-header {
-      background: transparent !important;
-      border-bottom: 1px solid #ddd;
-      color: var(--clr-text);
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-
-    .nav-tabs .nav-link {
-      border: none;
-      color: var(--clr-text);
+      font-size: 0.875rem;
       font-weight: 500;
-      font-size: 1rem;
-      padding: 0.5rem 1rem;
+      color: var(--clr-text-secondary);
+      margin: 0;
     }
-    .nav-tabs .nav-link.active {
-      background: var(--clr-accent);
-      border-radius: 0.5rem;
-      color: var(--clr-text);
+
+    .metric-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.125rem;
+    }
+
+    .metric-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--clr-text-primary);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-change {
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .metric-change.positive {
+      color: var(--clr-success);
+    }
+
+    .metric-change.negative {
+      color: var(--clr-danger);
+    }
+
+    .data-card {
+      background: var(--clr-bg-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .data-card-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--clr-border-light);
+      background: var(--clr-bg-card);
+    }
+
+    .data-card-title {
+      font-size: 1.125rem;
       font-weight: 600;
+      color: var(--clr-text-primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .data-card-body {
+      padding: 1.5rem;
+    }
+
+    .custom-tabs {
+      border-bottom: 1px solid var(--clr-border-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .custom-tabs .nav-link {
+      border: none;
+      border-radius: 0;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+      color: var(--clr-text-secondary);
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .custom-tabs .nav-link:hover {
+      color: var(--clr-text-primary);
+      background: var(--clr-bg-secondary);
+    }
+
+    .custom-tabs .nav-link.active {
+      color: var(--clr-accent);
+      background: transparent;
+      border-bottom-color: var(--clr-accent);
+    }
+
+    .student-card {
+      background: var(--clr-bg-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.15s ease;
+    }
+
+    .student-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .student-card.high-risk {
+      border-left: 4px solid var(--clr-danger);
+      background: linear-gradient(90deg, var(--clr-danger-light) 0%, var(--clr-bg-card) 100%);
+    }
+
+    .student-card.medium-risk {
+      border-left: 4px solid var(--clr-warning);
+      background: linear-gradient(90deg, var(--clr-warning-light) 0%, var(--clr-bg-card) 100%);
+    }
+
+    .student-card.low-risk {
+      border-left: 4px solid var(--clr-success);
+      background: linear-gradient(90deg, var(--clr-success-light) 0%, var(--clr-bg-card) 100%);
+    }
+
+    .student-id {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--clr-text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .risk-factors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .risk-badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid;
+    }
+
+    .risk-badge.high {
+      background: var(--clr-danger-light);
+      color: var(--clr-danger);
+      border-color: var(--clr-danger);
+    }
+
+    .risk-badge.medium {
+      background: var(--clr-warning-light);
+      color: var(--clr-warning);
+      border-color: var(--clr-warning);
+    }
+
+    .risk-badge.low {
+      background: var(--clr-success-light);
+      color: var(--clr-success);
+      border-color: var(--clr-success);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      background: var(--clr-bg-secondary);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--clr-text-secondary);
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--clr-border-light);
+      font-size: 0.875rem;
+    }
+
+    .data-table tr:hover {
+      background: var(--clr-bg-secondary);
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .status-badge.success {
+      background: var(--clr-success-light);
+      color: var(--clr-success);
+    }
+
+    .status-badge.warning {
+      background: var(--clr-warning-light);
+      color: var(--clr-warning);
+    }
+
+    .status-badge.danger {
+      background: var(--clr-danger-light);
+      color: var(--clr-danger);
+    }
+
+    .btn-primary {
+      background: #000000;
+      border: 1px solid #000000;
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: #333333;
+      border-color: #333333;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline-primary {
+      background: transparent;
+      border: 1px solid #000000;
+      color: #000000;
+      border-radius: var(--radius-md);
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .alert {
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: var(--clr-success-light);
+      color: var(--clr-success);
+      border-left-color: var(--clr-success);
+    }
+
+    .alert-warning {
+      background: var(--clr-warning-light);
+      color: var(--clr-warning);
+      border-left-color: var(--clr-warning);
+    }
+
+    .alert-danger {
+      background: var(--clr-danger-light);
+      color: var(--clr-danger);
+      border-left-color: var(--clr-danger);
+    }
+
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      gap: 0.25rem;
+    }
+
+    .page-item {
+      display: flex;
+    }
+
+    .page-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--clr-text-secondary);
+      text-decoration: none;
+      background: var(--clr-bg-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      transition: all 0.15s ease;
+      min-width: 40px;
+      height: 40px;
+    }
+
+    .page-link:hover {
+      color: var(--clr-text-primary);
+      background: var(--clr-bg-secondary);
+      border-color: var(--clr-border);
+    }
+
+    .page-item.active .page-link {
+      color: #ffffff;
+      background: #000000;
+      border-color: #000000;
+    }
+
+    .page-item.disabled .page-link {
+      color: var(--clr-text-muted);
+      background: var(--clr-bg-card);
+      border-color: var(--clr-border-light);
+      cursor: not-allowed;
+    }
+
+    .table-info {
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .main-container {
+        margin-left: 0;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
     }
   </style>
   {% endblock %}
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 bg-white shadow-sm">
-        <ul class="nav nav-tabs px-4 py-2">
-          <li class="nav-item">
-            <a class="nav-link {{ 'active' if request.endpoint=='dashboard' }}" href="{{ url_for('dashboard') }}">
-              <i class="fas fa-home"></i> Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ 'active' if request.endpoint=='predict_page' }}" href="{{ url_for('predict_page') }}">
-              <i class="fas fa-upload"></i> Upload Class Data
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ 'active' if request.endpoint=='model_insights' }}" href="{{ url_for('model_insights') }}">
-              <i class="fas fa-lightbulb"></i> Teaching Insights
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ 'active' if request.endpoint=='train_model' }}" href="{{ url_for('train_model') }}">
-              <i class="fas fa-cogs"></i> System Setup
-            </a>
-          </li>
-        </ul>
-      </div>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h4>EduPredict <span class="badge">BETA</span></h4>
     </div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a class="sidebar-nav-link {{ 'active' if request.endpoint=='dashboard' }}" 
+           href="{{ url_for('dashboard') }}">
+          <i class="fas fa-chart-line"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="sidebar-nav-link {{ 'active' if request.endpoint=='predict_page' }}" 
+           href="{{ url_for('predict_page') }}">
+          <i class="fas fa-upload"></i>
+          Upload Class Data
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="sidebar-nav-link {{ 'active' if request.endpoint=='model_insights' }}" 
+           href="{{ url_for('model_insights') }}">
+          <i class="fas fa-lightbulb"></i>
+          Teaching Insights
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="sidebar-nav-link {{ 'active' if request.endpoint=='train_model' }}" 
+           href="{{ url_for('train_model') }}">
+          <i class="fas fa-cogs"></i>
+          System Setup
+        </a>
+      </li>
+    </ul>
+  </div>
 
-    <main class="px-md-4 main-content mt-4">
+  <div class="main-container">
+    <main class="main-content">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
-            <div class="alert alert-{{ 'danger' if category=='error' else category }} alert-dismissible fade show" role="alert">
+            <div class="alert alert-{{ 'danger' if category=='error' else category }}">
               {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
           {% endfor %}
         {% endif %}
