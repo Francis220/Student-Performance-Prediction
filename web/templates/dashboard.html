@@ -1,225 +1,133 @@
+<!-- templates/dashboard.html -->
 {% extends "base.html" %}
-
 {% block title %}Class Dashboard - Student Performance Prediction{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2"><i class="fas fa-chalkboard-teacher"></i> My Class Dashboard</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-            <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-upload"></i> Upload Class Data
-            </a>
-        </div>
-    </div>
+<div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
+  <h1 class="h2"><i class="fas fa-chalkboard-teacher"></i> My Class Dashboard</h1>
+  <a href="{{ url_for('predict_page') }}" class="btn" style="background: var(--clr-accent); color: var(--clr-text); border-radius: 1rem;">
+    <i class="fas fa-upload"></i> Upload Class Data
+  </a>
 </div>
 
-<!-- Quick Class Overview -->
-<div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="metric-card bg-primary text-white">
-            <div class="metric-number">{{ total_students }}</div>
-            <div class="metric-label">Total Students</div>
-        </div>
+<div class="row g-4 mb-5">
+  <div class="col-md-6 col-xl-3">
+    <div class="metric-card">
+      <div class="metric-number">{{ total_students }}</div>
+      <div class="metric-label">Total Students</div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="metric-card bg-danger text-white">
-            <div class="metric-number">{{ high_risk_count }}</div>
-            <div class="metric-label">High Risk</div>
-        </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="metric-card">
+      <div class="metric-number">{{ high_risk_count }}</div>
+      <div class="metric-label">High Risk</div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="metric-card bg-warning text-white">
-            <div class="metric-number">{{ medium_risk_count }}</div>
-            <div class="metric-label">Medium Risk</div>
-        </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="metric-card">
+      <div class="metric-number">{{ medium_risk_count }}</div>
+      <div class="metric-label">Medium Risk</div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="metric-card bg-success text-white">
-            <div class="metric-number">{{ low_risk_count }}</div>
-            <div class="metric-label">Low Risk</div>
-        </div>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <div class="metric-card">
+      <div class="metric-number">{{ low_risk_count }}</div>
+      <div class="metric-label">Low Risk</div>
     </div>
+  </div>
 </div>
 
-<!-- Class Risk Overview -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="fas fa-users"></i> Class Risk Overview</h5>
-            </div>
-            <div class="card-body">
-                <!-- Risk Level Tabs -->
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-high-tab" data-bs-toggle="tab" data-bs-target="#nav-high" type="button">
-                            <i class="fas fa-exclamation-triangle text-danger"></i> High Risk ({{ high_risk_count }})
-                        </button>
-                        <button class="nav-link" id="nav-medium-tab" data-bs-toggle="tab" data-bs-target="#nav-medium" type="button">
-                            <i class="fas fa-exclamation-circle text-warning"></i> Medium Risk ({{ medium_risk_count }})
-                        </button>
-                        <button class="nav-link" id="nav-low-tab" data-bs-toggle="tab" data-bs-target="#nav-low" type="button">
-                            <i class="fas fa-check-circle text-success"></i> Low Risk ({{ low_risk_count }})
-                        </button>
-                    </div>
-                </nav>
-                
-                <div class="tab-content mt-3" id="nav-tabContent">
-                    <!-- High Risk Students -->
-                    <div class="tab-pane fade show active" id="nav-high">
-                        <div class="row">
-                            {% for student in high_risk_students %}
-                            <div class="col-md-4 mb-3">
-                                <div class="card border-danger">
-                                    <div class="card-header bg-danger text-white">
-                                        <strong>{{ student.id }}</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="risk-factors mb-2">
-                                            <small class="text-muted">Primary Risk Factors:</small>
-                                            <div>
-                                                {% for factor in student.factors %}
-                                                <span class="badge bg-danger me-1">{{ factor }}</span>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        {% if high_risk_students|length == 0 %}
-                        <div class="alert alert-success mt-3">
-                            <strong>No high-risk students identified.</strong>
-                        </div>
-                        {% else %}
-                        <div class="alert alert-danger mt-3">
-                            <strong><i class="fas fa-exclamation-triangle"></i> Action Required:</strong>
-                            These students need immediate intervention. Provide targeted support.
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <!-- Medium Risk Students -->
-                    <div class="tab-pane fade" id="nav-medium">
-                        <div class="alert alert-warning">
-                            <strong><i class="fas fa-eye"></i> Monitor Closely:</strong>
-                            These students show some risk factors but can improve with targeted support.
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Student</th>
-                                        <th>Risk Factors</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for student in medium_risk_students %}
-                                    <tr>
-                                        <td><strong>{{ student.id }}</strong></td>
-                                        <td>
-                                            {% for factor in student.factors %}
-                                            <span class="badge bg-warning me-1">{{ factor }}</span>
-                                            {% endfor %}
-                                        </td>
-                                        <td><span class="badge bg-warning">Monitor</span></td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <!-- Low Risk Students -->
-                    <div class="tab-pane fade" id="nav-low">
-                        <div class="alert alert-success">
-                            <strong><i class="fas fa-check-circle"></i> On Track:</strong>
-                            These students are performing well.
-                        </div>
-
-                        <ul class="list-group">
-                            {% for student in low_risk_students %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ student.id }}
-                                <span class="badge bg-success">Good</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+<div class="card mb-5">
+  <div class="card-header">
+    <i class="fas fa-users"></i> Class Risk Overview
+  </div>
+  <div class="card-body">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-high">
+          <i class="fas fa-exclamation-triangle" style="color: var(--clr-high)"></i>
+          High Risk ({{ high_risk_count }})
+        </button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-medium">
+          <i class="fas fa-exclamation-circle" style="color: var(--clr-medium)"></i>
+          Medium Risk ({{ medium_risk_count }})
+        </button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-low">
+          <i class="fas fa-check-circle" style="color: var(--clr-accent)"></i>
+          Low Risk ({{ low_risk_count }})
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content mt-4">
+      <div class="tab-pane fade show active" id="nav-high">
+        <div class="row g-3">
+          {% for student in high_risk_students %}
+          <div class="col-md-4">
+            <div class="card border-0">
+              <div class="card-header" style="background: var(--clr-high); color: var(--clr-text);">
+                {{ student.id }}
+              </div>
+              <div class="card-body">
+                <small class="text-muted">Primary Risk Factors:</small>
+                <div class="mt-2">
+                  {% for factor in student.factors %}
+                  <span class="badge badge-high me-1">{{ factor }}</span>
+                  {% endfor %}
                 </div>
+              </div>
             </div>
+          </div>
+          {% endfor %}
         </div>
-    </div>
-</div>
-
-<!-- No Data State (Hidden when class data is loaded) -->
-<div class="row mb-4" id="no-data-state" style="display: none;">
-    <div class="col-12">
-        <div class="card border-primary">
-            <div class="card-body text-center py-5">
-                <i class="fas fa-upload fa-4x text-primary mb-3"></i>
-                <h3>Upload Your Class Data</h3>
-                <p class="lead text-muted mb-4">
-                    Upload your student data file to see which students are at risk and get personalized recommendations.
-                </p>
-                <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-upload"></i> Upload Class Data
-                </a>
-            </div>
+        <div class="mt-4">
+          {% if high_risk_students|length == 0 %}
+          <div class="alert alert-success">No high-risk students identified.</div>
+          {% else %}
+          <div class="alert" style="background: var(--clr-high); color: var(--clr-text);">
+            <i class="fas fa-exclamation-triangle"></i> Action Required: Provide targeted support.
+          </div>
+          {% endif %}
         </div>
-    </div>
-</div>
+      </div>
 
+      <div class="tab-pane fade" id="nav-medium">
+        <div class="alert" style="background: var(--clr-medium); color: var(--clr-text);">
+          <i class="fas fa-eye"></i> Monitor Closely
+        </div>
+        <table class="table mt-3">
+          <thead>
+            <tr><th>Student</th><th>Risk Factors</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {% for student in medium_risk_students %}
+            <tr>
+              <td>{{ student.id }}</td>
+              <td>
+                {% for factor in student.factors %}
+                <span class="badge badge-medium me-1">{{ factor }}</span>
+                {% endfor %}
+              </td>
+              <td><span class="badge badge-medium">Monitor</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="nav-low">
+        <div class="alert" style="background: var(--clr-accent); color: var(--clr-text);">
+          <i class="fas fa-check-circle"></i> On Track
+        </div>
+        <ul class="list-group">
+          {% for student in low_risk_students %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ student.id }}
+            <span class="badge badge-low">Good</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
-
-{% block scripts %}
-<style>
-.metric-card {
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.metric-number {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.metric-label {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.risk-factors .badge {
-    font-size: 0.7rem;
-}
-
-.recommendations ul {
-    padding-left: 1rem;
-    margin-bottom: 0;
-}
-
-.action-item {
-    padding: 0.25rem 0;
-}
-
-.progress-item {
-    padding: 0.25rem 0;
-}
-
-.nav-tabs .nav-link {
-    color: #495057;
-}
-
-.nav-tabs .nav-link.active {
-    font-weight: 600;
-}
-</style>
-{% endblock %} 
