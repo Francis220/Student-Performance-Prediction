@@ -1,0 +1,163 @@
+Individual Student Risk Explanations - SVM
+================================================================================
+
+Student ID: 570
+Actual Risk Level: Critical
+Predicted Risk Level: High
+Prediction Confidence: 44.10%
+
+Risk Probabilities:
+  Critical: 28.66%
+  High: 44.10%
+  Low: 7.39%
+  Medium: 19.86%
+
+Top Contributing Factors (Increasing Risk):
+  - reason_other: False (impact: -0.242)
+  - guardian_father: False (impact: -0.167)
+  - Mjob_at_home: False (impact: -0.166)
+  - failures: 0 (impact: -0.131)
+  - address: 0 (impact: -0.111)
+
+Top Contributing Factors (Decreasing Risk):
+  - school: 1 (impact: 0.236)
+  - reason_course: True (impact: 0.116)
+  - reason_home: False (impact: 0.115)
+  - famsup: 1 (impact: 0.073)
+  - health: 4 (impact: 0.059)
+
+Intervention Recommendations:
+  1. Schedule regular check-ins with academic advisor
+  2. Connect with peer tutoring services
+  3. Develop a personalized study plan
+
+--------------------------------------------------------------------------------
+
+Student ID: 502
+Actual Risk Level: Critical
+Predicted Risk Level: Critical
+Prediction Confidence: 42.66%
+
+Risk Probabilities:
+  Critical: 42.66%
+  High: 31.81%
+  Low: 9.96%
+  Medium: 15.57%
+
+Top Contributing Factors (Increasing Risk):
+  - reason_course: False (impact: -0.292)
+  - reason_home: False (impact: -0.284)
+  - Mjob_at_home: False (impact: -0.180)
+  - guardian_other: False (impact: -0.160)
+  - address: 0 (impact: -0.134)
+
+Top Contributing Factors (Decreasing Risk):
+  - reason_other: True (impact: 0.585)
+  - guardian_father: False (impact: 0.333)
+  - school: 1 (impact: 0.244)
+  - Fjob_other: False (impact: 0.161)
+  - famsup: 1 (impact: 0.074)
+
+Intervention Recommendations:
+  1. Schedule regular check-ins with academic advisor
+  2. Connect with peer tutoring services
+  3. Develop a personalized study plan
+
+--------------------------------------------------------------------------------
+
+Student ID: 557
+Actual Risk Level: High
+Predicted Risk Level: Critical
+Prediction Confidence: 45.61%
+
+Risk Probabilities:
+  Critical: 45.61%
+  High: 32.88%
+  Low: 7.13%
+  Medium: 14.38%
+
+Top Contributing Factors (Increasing Risk):
+  - guardian_other: False (impact: -0.615)
+  - guardian_mother: True (impact: -0.326)
+  - Mjob_teacher: False (impact: -0.230)
+  - Fjob_at_home: False (impact: -0.156)
+  - address: 0 (impact: -0.149)
+
+Top Contributing Factors (Decreasing Risk):
+  - guardian_father: False (impact: 1.276)
+  - school: 1 (impact: 0.238)
+  - Mjob_services: False (impact: 0.194)
+  - famsup: 1 (impact: 0.083)
+  - Mjob_other: True (impact: 0.066)
+
+Intervention Recommendations:
+  1. Schedule regular check-ins with academic advisor
+  2. Connect with peer tutoring services
+  3. Develop a personalized study plan
+
+--------------------------------------------------------------------------------
+
+Student ID: 527
+Actual Risk Level: High
+Predicted Risk Level: Medium
+Prediction Confidence: 36.77%
+
+Risk Probabilities:
+  Critical: 11.63%
+  High: 31.04%
+  Low: 20.55%
+  Medium: 36.77%
+
+Top Contributing Factors (Increasing Risk):
+  - failures: 0 (impact: -0.214)
+  - reason_course: False (impact: -0.199)
+  - reason_home: False (impact: -0.176)
+  - guardian_father: False (impact: -0.172)
+  - Fjob_teacher: False (impact: -0.157)
+
+Top Contributing Factors (Decreasing Risk):
+  - Fjob_other: False (impact: 0.280)
+  - reason_other: True (impact: 0.269)
+  - school: 1 (impact: 0.253)
+  - schoolsup: 0 (impact: 0.162)
+  - reason_reputation: False (impact: 0.088)
+
+Intervention Recommendations:
+  1. Schedule regular check-ins with academic advisor
+  2. Connect with peer tutoring services
+  3. Develop a personalized study plan
+
+--------------------------------------------------------------------------------
+
+Student ID: 188
+Actual Risk Level: Low
+Predicted Risk Level: Medium
+Prediction Confidence: 46.25%
+
+Risk Probabilities:
+  Critical: 5.50%
+  High: 23.79%
+  Low: 24.45%
+  Medium: 46.25%
+
+Top Contributing Factors (Increasing Risk):
+  - failures: 0 (impact: -0.239)
+  - school: 0 (impact: -0.228)
+  - guardian_father: False (impact: -0.219)
+  - health: 4 (impact: -0.138)
+  - Mjob_services: False (impact: -0.099)
+
+Top Contributing Factors (Decreasing Risk):
+  - schoolsup: 0 (impact: 0.141)
+  - Mjob_at_home: False (impact: 0.086)
+  - Fjob_at_home: False (impact: 0.073)
+  - address: 1 (impact: 0.069)
+  - Mjob_teacher: False (impact: 0.054)
+
+Intervention Recommendations:
+  1. Schedule regular check-ins with academic advisor
+  2. Connect with peer tutoring services
+  3. Develop a personalized study plan
+
+--------------------------------------------------------------------------------
+

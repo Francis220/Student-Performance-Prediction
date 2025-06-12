@@ -1,0 +1,40 @@
+|--- failures <= 0.50
+|   |--- higher <= 0.50
+|   |   |--- guardian_mother <= 0.50
+|   |   |   |--- class: 1
+|   |   |--- guardian_mother >  0.50
+|   |   |   |--- class: 0
+|   |--- higher >  0.50
+|   |   |--- schoolsup <= 0.50
+|   |   |   |--- school <= 0.50
+|   |   |   |   |--- health <= 2.50
+|   |   |   |   |   |--- class: 2
+|   |   |   |   |--- health >  2.50
+|   |   |   |   |   |--- class: 3
+|   |   |   |--- school >  0.50
+|   |   |   |   |--- Walc <= 2.50
+|   |   |   |   |   |--- class: 2
+|   |   |   |   |--- Walc >  2.50
+|   |   |   |   |   |--- class: 0
+|   |   |--- schoolsup >  0.50
+|   |   |   |--- freetime <= 3.50
+|   |   |   |   |--- reason_home <= 0.50
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- reason_home >  0.50
+|   |   |   |   |   |--- class: 3
+|   |   |   |--- freetime >  3.50
+|   |   |   |   |--- class: 3
+|--- failures >  0.50
+|   |--- reason_home <= 0.50
+|   |   |--- famsize <= 0.50
+|   |   |   |--- Mjob_at_home <= 0.50
+|   |   |   |   |--- guardian_mother <= 0.50
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- guardian_mother >  0.50
+|   |   |   |   |   |--- class: 0
+|   |   |   |--- Mjob_at_home >  0.50
+|   |   |   |   |--- class: 0
+|   |   |--- famsize >  0.50
+|   |   |   |--- class: 0
+|   |--- reason_home >  0.50
+|   |   |--- class: 1

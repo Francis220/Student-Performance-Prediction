@@ -1,0 +1,42 @@
+================================================================================
+MODEL COMPARISON REPORT
+Generated: 2025-06-11 20:16:43
+================================================================================
+
+DATASET INFORMATION
+----------------------------------------
+feature_names: 46 features
+n_features: 46
+n_classes: 4
+class_names: ['Critical' 'High' 'Low' 'Medium']
+
+MODEL PERFORMANCE SUMMARY
+----------------------------------------
+
+RANDOM_FOREST
+--------------------
+Training Time: 29.94 seconds
+
+GRADIENT_BOOSTING
+--------------------
+Training Time: 41.11 seconds
+
+SVM
+--------------------
+Training Time: 2.22 seconds
+
+NEURAL_NETWORK
+--------------------
+Training Time: 0.57 seconds
+
+LOGISTIC_REGRESSION
+--------------------
+Training Time: 13.92 seconds
+
+ENSEMBLE
+--------------------
+Training Time: 0.00 seconds
+
+========================================
+BEST MODEL: RANDOM_FOREST
+Test Accuracy: 0.0000

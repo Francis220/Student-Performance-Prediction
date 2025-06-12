@@ -1,0 +1,41 @@
+# Data manipulation and analysis
+pandas==1.5.3
+numpy==1.24.3
+scipy==1.10.1
+
+# Machine Learning
+scikit-learn==1.2.2
+imbalanced-learn==0.10.1
+xgboost==1.7.5
+
+# Model interpretability
+shap==0.41.0
+lime==0.2.0.1
+
+# Database
+sqlalchemy==2.0.15
+psycopg2-binary==2.9.6
+
+# Web framework
+flask==2.3.2
+flask-sqlalchemy==3.0.3
+flask-login==0.6.2
+flask-wtf==1.1.1
+
+# Visualization
+matplotlib==3.7.1
+seaborn==0.12.2
+plotly==5.14.1
+
+# File handling
+openpyxl==3.1.2
+xlrd==2.0.1
+
+# Testing
+pytest==7.3.1
+pytest-cov==4.0.0
+
+# Development tools
+jupyter==1.0.0
+black==23.3.0
+flake8==6.0.0
