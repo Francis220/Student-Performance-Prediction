@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Startup script for Student Performance Prediction Web Application
 """
@@ -90,9 +89,8 @@ def run_flask_app(host='localhost', port=5000, debug=False):
         
         print(f"\n🚀 Starting Student Performance Prediction Web App")
         print(f"📊 Dashboard: http://{host}:{port}")
-        print(f"🔮 Prediction: http://{host}:{port}/predict")
-        print(f"📈 Insights: http://{host}:{port}/model-insights")
-        print(f"⚙️  Training: http://{host}:{port}/train-model")
+        print(f"🔮 Upload Class Data: http://{host}:{port}/predict")
+        print(f"✅ Model Validation: http://{host}:{port}/validate")
         print("\nPress Ctrl+C to stop the server")
         print("=" * 60)
         

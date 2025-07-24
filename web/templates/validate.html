@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Model Validation - Student Performance Prediction{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="fas fa-check-circle"></i>
+            Model Validation
+        </h1>
+        <p class="page-subtitle">How well do our models predict student performance?</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Testing models on {{ total_students }} students as if predicting at semester start
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for model_name, result in results.items() %}
+    <div class="col-lg-4 mb-4">
+        <div class="metric-card">
+            <div class="metric-header">
+                <div>
+                    <p class="metric-label">{{ model_name }}</p>
+                </div>
+                <div class="metric-icon {% if result.error %}bg-danger{% elif result.accuracy >= 80 %}bg-success{% elif result.accuracy >= 70 %}bg-warning{% else %}bg-danger{% endif %}">
+                    <i class="fas fa-{% if result.error %}times{% elif result.accuracy >= 80 %}check{% elif result.accuracy >= 70 %}exclamation{% else %}times{% endif %}"></i>
+                </div>
+            </div>
+            {% if result.error %}
+                <div class="metric-number text-danger">Error</div>
+                <small class="text-muted">{{ result.error }}</small>
+            {% else %}
+                <div class="metric-number">{{ result.accuracy }}%</div>
+                <div class="metric-change {% if result.accuracy >= 75 %}positive{% else %}negative{% endif %}">
+                    <i class="fas fa-{% if result.accuracy >= 75 %}thumbs-up{% else %}thumbs-down{% endif %}"></i>
+                    <span>Prediction Accuracy</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="data-card">
+            <div class="data-card-header">
+                <h5 class="data-card-title">
+                    <i class="fas fa-balance-scale"></i>
+                    Sample Predictions vs Reality
+                </h5>
+            </div>
+            <div class="data-card-body">
+                {% for model_name, result in results.items() %}
+                {% if not result.error %}
+                <h6>{{ model_name }}</h6>
+                <div class="table-responsive mb-4">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Predicted Risk</th>
+                                <th>Actual Risk</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for actual, predicted in result.sample_comparisons %}
+                            <tr>
+                                <td>Student #{{ loop.index }}</td>
+                                <td>
+                                    <span class="status-badge {% if predicted == 'High' %}danger{% elif predicted == 'Medium' %}warning{% else %}success{% endif %}">
+                                        {{ predicted }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge {% if actual == 'High' %}danger{% elif actual == 'Medium' %}warning{% else %}success{% endif %}">
+                                        {{ actual }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if actual == predicted %}
+                                        <i class="fas fa-check text-success"></i> Correct
+                                    {% else %}
+                                        <i class="fas fa-times text-danger"></i> Wrong
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
