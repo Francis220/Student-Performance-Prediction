@@ -1,6 +1,6 @@
 # 🎓 Student Performance Prediction System
 
-An intelligent machine learning system that predicts student academic performance risk levels and provides actionable insights for educators. The system identifies students who may need additional support early in the academic term, enabling proactive intervention strategies.
+A machine learning system that predicts student academic performance risk levels and provides actionable insights for educators. The system identifies students who may need additional support early in the academic term, enabling proactive intervention strategies.
 
 ## 🌟 Key Features
 
@@ -10,6 +10,60 @@ An intelligent machine learning system that predicts student academic performanc
 - **⚡ Batch Processing**: Analyze entire class rosters instantly
 - **📈 Performance Validation**: Comprehensive model evaluation and comparison
 - **🎯 Risk Categorization**: Classifies students into High, Medium, and Low risk categories
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8 or higher
+- pip package manager
+- 4GB+ RAM recommended
+
+### Installation
+
+1. **Clone the repository:**
+```bash
+git clone <repository-url>
+cd student-performance-prediction
+```
+
+2. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Verify installation:**
+```bash
+python3 -c "import sklearn, pandas, flask; print('All dependencies installed successfully!')"
+```
+
+### Quick Start
+
+#### 1. Launch Web Application
+
+```bash
+# Start the web server
+python3 run_web_app.py --port 8080
+
+# Access the dashboard
+# Open browser to: http://localhost:8080
+```
+#### 3. View Sample Predictions
+
+The dashboard will automatically load with sample student data from `data/student-por.csv`, showing:
+- Risk distribution across the class
+- Individual student risk factors
+- Model validation results
+
+#### 2. Train Models (Optional - Pre-trained models included)
+
+```bash
+# Train all models with default settings
+python3 examples/run_complete_pipeline.py
+
+# Train specific models with custom parameters
+python3 examples/test_models.py
+```
 
 ## 🏗️ System Architecture
 
@@ -120,61 +174,6 @@ graph TD
 - Precision, Recall, F1-score
 - Confusion matrix analysis
 - ROC curve analysis
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8 or higher
-- pip package manager
-- 4GB+ RAM recommended
-
-### Installation
-
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd student-performance-prediction
-```
-
-2. **Install dependencies:**
-```bash
-pip install -r requirements.txt
-```
-
-3. **Verify installation:**
-```bash
-python3 -c "import sklearn, pandas, flask; print('All dependencies installed successfully!')"
-```
-
-### Quick Start
-
-#### 1. Train Models (Optional - Pre-trained models included)
-
-```bash
-# Train all models with default settings
-python3 examples/run_complete_pipeline.py
-
-# Train specific models with custom parameters
-python3 examples/test_models.py
-```
-
-#### 2. Launch Web Application
-
-```bash
-# Start the web server
-python3 run_web_app.py --port 8080
-
-# Access the dashboard
-# Open browser to: http://localhost:8080
-```
-
-#### 3. View Sample Predictions
-
-The dashboard will automatically load with sample student data from `data/student-por.csv`, showing:
-- Risk distribution across the class
-- Individual student risk factors
-- Model validation results
 
 ## 💻 Usage Examples
 
