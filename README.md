@@ -29,7 +29,7 @@ cd student-performance-prediction
 
 2. **Install dependencies:**
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 3. **Verify installation:**
@@ -48,14 +48,14 @@ python3 run_web_app.py --port 8080
 # Access the dashboard
 # Open browser to: http://localhost:8080
 ```
-#### 3. View Sample Predictions
+#### 2. View Sample Predictions
 
 The dashboard will automatically load with sample student data from `data/student-por.csv`, showing:
 - Risk distribution across the class
 - Individual student risk factors
 - Model validation results
 
-#### 2. Train Models (Optional - Pre-trained models included)
+#### 3. Train Models (Optional - Pre-trained models are included)
 
 ```bash
 # Train all models with default settings
@@ -292,22 +292,4 @@ python3 examples/run_advanced_pipeline.py --interpretability
 **Custom Risk Categories:**
 - Modify `create_risk_categories` in `DataPreprocessor`
 - Adjust thresholds based on institutional needs
-
-## 🤝 Contributing
-
-### Development Setup
-
-```bash
-# Create development environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-### Code Structure Guidelines
-
-- **Models**: Extend `BaseModel` class
-- **Data Processing**: Use `DataPreprocessor` pipeline
-- **Web Routes**: Follow Flask best practices
-- **Testing**: Add tests for new functionality
 
